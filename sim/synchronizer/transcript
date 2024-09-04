@@ -1,0 +1,46 @@
+# Loading project synchronizer-sim
+# Compile of synchronizer-sim.vhd failed with 1 errors.
+# Compile of synchronizer_tb.vhd was successful.
+# 2 compiles, 1 failed with 1 error.
+# Compile of synchronizer-sim.vhd failed with 1 errors.
+# Compile of synchronizer_tb.vhd was successful.
+# 2 compiles, 1 failed with 1 error.
+# Compile of synchronizer-sim.vhd failed with 1 errors.
+# Compile of synchronizer_tb.vhd was successful.
+# 2 compiles, 1 failed with 1 error.
+# Compile of synchronizer-sim.vhd failed with 1 errors.
+# Compile of synchronizer_tb.vhd was successful.
+# 2 compiles, 1 failed with 1 error.
+# Compile of synchronizer-sim.vhd failed with 4 errors.
+# Compile of synchronizer_tb.vhd was successful.
+# 2 compiles, 1 failed with 4 errors.
+# Compile of synchronizer-sim.vhd was successful.
+# Compile of synchronizer_tb.vhd was successful.
+# 2 compiles, 0 failed with no errors.
+vsim work.synchronizer work.synchronizer_tb
+# vsim work.synchronizer work.synchronizer_tb 
+# Start time: 22:32:02 on Sep 03,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.synchronizer(synchronizer_arch)
+# Loading std.env(body)
+# Loading work.synchronizer_tb(testbench)
+add wave -position insertpoint  \
+sim:/synchronizer/temp \
+sim:/synchronizer/sync \
+sim:/synchronizer/clk \
+sim:/synchronizer/async
+add wave -position insertpoint  \
+sim:/synchronizer_tb/sync_tb \
+sim:/synchronizer_tb/sync_expected \
+sim:/synchronizer_tb/clk_tb \
+sim:/synchronizer_tb/CLK_PERIOD \
+sim:/synchronizer_tb/async_tb
+run
+# ** Note: all tests passed!
+#    Time: 100 ns  Iteration: 0  Instance: /synchronizer_tb
+# 1
+# Break in Process check_output at /home/drew/Documents/EELE-467/sim/synchronizer/synchronizer_tb.vhd line 111
+# End time: 22:32:57 on Sep 03,2024, Elapsed time: 0:00:55
+# Errors: 0, Warnings: 7
