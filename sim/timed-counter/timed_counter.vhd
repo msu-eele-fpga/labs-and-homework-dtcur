@@ -19,7 +19,7 @@ entity timed_counter is
 end entity timed_counter;
 
 architecture counter_arch of timed_counter is
-	constant COUNTER_LIMIT	: integer := clk_period / count_time;
+	constant COUNTER_LIMIT	: integer :=  count_time / clk_period ;
 	signal	 counter	: integer range 0 to COUNTER_LIMIT := 0;
 
 begin
@@ -27,8 +27,7 @@ begin
 
 	begin
 		if rising_edge(clk) and enable then
-			-- If running then increase counter by one
-			counter <= counter + 1;
+			
 			-- If counter has exceeded or is equal to the COUNTER_LIMIT
 			-- stop counting and assert done and reset counter
 			-- If enable is still true this will continue to count
@@ -37,6 +36,7 @@ begin
 				counter <= 0;
 			else
 			-- If still counting assert done as false
+				counter <= counter + 1;
 				done <= false;
 			end if;
 		else
