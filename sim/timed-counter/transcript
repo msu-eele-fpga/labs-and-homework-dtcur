@@ -1,7 +1,7 @@
 # Loading project timed-counter-sim
 vsim work.timed_counter work.timed_counter_tb
 # vsim work.timed_counter work.timed_counter_tb 
-# Start time: 18:51:11 on Sep 09,2024
+# Start time: 10:16:18 on Sep 10,2024
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -22,5 +22,5 @@ vsim work.timed_counter work.timed_counter_tb
 #    Time: 0 ps  Iteration: 0  Instance: /timed_counter File: /home/drew/Documents/EELE-467/EELE467-Repo/sim/timed-counter/timed_counter.vhd Line: 10
 # FATAL ERROR while loading design
 # Error loading design
-# End time: 18:51:11 on Sep 09,2024, Elapsed time: 0:00:00
+# End time: 10:16:18 on Sep 10,2024, Elapsed time: 0:00:00
 # Errors: 1, Warnings: 1
