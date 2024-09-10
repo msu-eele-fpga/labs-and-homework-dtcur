@@ -21,8 +21,8 @@ architecture testbench of timed_counter_tb is
 	--Pass in the time delays as specified in tb_pkg
 	component timed_counter is
 		generic ( 
-			clk_period : in time;
-			count_time : in time
+			clk_period : time;
+			count_time : time
 		);
 		port (
 			clk	: in std_ulogic;
