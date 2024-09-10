@@ -7,8 +7,8 @@ use work.tb_pkg.all;
 
 entity timed_counter is
 	generic ( 
-		clk_period	: in time;
-		count_time	: in time
+		clk_period	: time;
+		count_time	: time
 	);
 	port (
 		clk	: in std_ulogic;
