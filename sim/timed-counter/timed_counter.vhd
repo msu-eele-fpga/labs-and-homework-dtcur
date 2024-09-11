@@ -26,22 +26,23 @@ begin
 	proc_timed_counter : process(clk, enable)
 
 	begin
-		if rising_edge(clk) and enable then
-			
-			-- If counter has exceeded or is equal to the COUNTER_LIMIT
-			-- stop counting and assert done and reset counter
-			-- If enable is still true this will continue to count
-			if counter >= COUNTER_LIMIT then 
-				done <= true;
-				counter <= 0;
+		if rising_edge(clk) then
+			if enable then
+				-- If counter has exceeded or is equal to the COUNTER_LIMIT
+				-- stop counting and assert done and reset counter
+				-- If enable is still true this will continue to count
+				if counter >= COUNTER_LIMIT then 
+					done <= true;
+					counter <= 0;
+				else
+					-- If still counting assert done as false
+					counter <= counter + 1;
+					done <= false;
+				end if;
 			else
-			-- If still counting assert done as false
-				counter <= counter + 1;
+				counter <= 0;
 				done <= false;
 			end if;
-		else
-			-- Reachable only if not enabled, in which case assert done as false
-			done <= false;
 		end if;
 	end process;
 

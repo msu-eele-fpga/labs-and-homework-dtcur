@@ -72,12 +72,11 @@ begin
 			enable => enable_100ns_tb,
 			done => done_100ns_tb
 			);
-
 		clk_tb <= not clk_tb after CLK_PERIOD / 2;
 
 		stimuli_and_checker : process is
 		begin
-		--Test 100 ns timer when enabled
+		--Test 100 ns timer when enabled test case #1
 			print("Testing 100 ns timer: enabled");
 			wait_for_clock_edge(clk_tb);
 			enable_100ns_tb <= true; 
@@ -87,8 +86,36 @@ begin
 			for i in 0 to (HUNDRED_NS / CLK_PERIOD) loop
 				wait_for_clock_edge(clk_tb);
 				-- Test for correct done output
-			       predict_counter_done(HUNDRED_NS, enable_100ns_tb, done_100ns_tb, i);	
+			       	predict_counter_done(HUNDRED_NS, enable_100ns_tb, done_100ns_tb, i);
 			end loop;
+			
+			-- End test #1
+			if done_100ns_tb then
+				enable_100ns_tb <= false;
+			end if;
+
+			-- Test condition #2 set enable low for two close cycles and ensure done is not asserted properly
+			wait_for_clock_edge(clk_tb);
+			enable_100ns_tb <= false;
+			wait_for_clock_edge(clk_tb);
+			enable_100ns_tb <= false;
+
+			-- Test for two consecutive timer counts test case #3
+			print("Testing 100 ns timer: enabled, nested loops");
+			wait_for_clock_edge(clk_tb);
+			enable_100ns_tb <= true;
+
+			for y in 0 to 2 loop
+				for x in 0 to (HUNDRED_NS / CLK_PERIOD) loop
+					wait_for_clock_edge(clk_tb);
+					--Test for correct done flag 
+					predict_counter_done(HUNDRED_NS, enable_100ns_tb, done_100ns_tb, x);
+				end loop;
+			end loop;
+		
+			
+
+			-- 
 
 			--Add additional test cases as needed
 
