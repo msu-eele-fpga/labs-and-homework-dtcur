@@ -986,3 +986,5 @@ run
 # Testing 100 ns timer: enabled, nested loops
 # 1
 # Break in Process stimuli_and_checker_240ns at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 179
+# End time: 22:12:52 on Sep 10,2024, Elapsed time: 1:24:53
+# Errors: 0, Warnings: 1
