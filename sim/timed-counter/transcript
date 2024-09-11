@@ -1,0 +1,120 @@
+# Loading project timed-counter-sim
+vsim work.timed_counter work.timed_counter_tb
+# vsim work.timed_counter work.timed_counter_tb 
+# Start time: 10:16:18 on Sep 10,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter(counter_arch)
+# Loading ieee.numeric_std(body)
+# Loading work.print_pkg(body)
+# Loading ieee.fixed_float_types
+# Loading ieee.math_real(body)
+# Loading ieee.fixed_generic_pkg(body)
+# Loading ieee.float_generic_pkg(body)
+# Loading ieee.fixed_pkg
+# Loading ieee.float_pkg
+# Loading work.assert_pkg(body)
+# Loading std.env(body)
+# Loading work.timed_counter_tb(testbench)
+# ** Fatal: (vsim-3350) Generic "clk_period" has not been given a value.
+#    Time: 0 ps  Iteration: 0  Instance: /timed_counter File: /home/drew/Documents/EELE-467/EELE467-Repo/sim/timed-counter/timed_counter.vhd Line: 10
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 10:16:18 on Sep 10,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 1
+vsim work.timed_counter work.timed_counter_tb
+# vsim work.timed_counter work.timed_counter_tb 
+# Start time: 10:20:48 on Sep 10,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter(counter_arch)
+# Loading ieee.numeric_std(body)
+# Loading work.print_pkg(body)
+# Loading ieee.fixed_float_types
+# Loading ieee.math_real(body)
+# Loading ieee.fixed_generic_pkg(body)
+# Loading ieee.float_generic_pkg(body)
+# Loading ieee.fixed_pkg
+# Loading ieee.float_pkg
+# Loading work.assert_pkg(body)
+# Loading std.env(body)
+# Loading work.timed_counter_tb(testbench)
+# ** Fatal: (vsim-3350) Generic "clk_period" has not been given a value.
+#    Time: 0 ps  Iteration: 0  Instance: /timed_counter File: /home/drew/Documents/EELE-467/EELE467-Repo/sim/timed-counter/timed_counter.vhd Line: 10
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 10:20:48 on Sep 10,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 1
+# Load canceled
+# Compile of print_pkg.vhd was successful.
+# Compile of assert_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# Compile of timed_counter.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+vsim work.timed_counter work.timed_counter_tb
+# vsim work.timed_counter work.timed_counter_tb 
+# Start time: 10:21:49 on Sep 10,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter(counter_arch)
+# Loading ieee.numeric_std(body)
+# Loading work.print_pkg(body)
+# Loading ieee.fixed_float_types
+# Loading ieee.math_real(body)
+# Loading ieee.fixed_generic_pkg(body)
+# Loading ieee.float_generic_pkg(body)
+# Loading ieee.fixed_pkg
+# Loading ieee.float_pkg
+# Loading work.assert_pkg(body)
+# Loading std.env(body)
+# Loading work.timed_counter_tb(testbench)
+# ** Fatal: (vsim-3350) Generic "clk_period" has not been given a value.
+#    Time: 0 ps  Iteration: 0  Instance: /timed_counter File: /home/drew/Documents/EELE-467/EELE467-Repo/sim/timed-counter/timed_counter.vhd Line: 10
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 10:21:49 on Sep 10,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 3
+# Compile of print_pkg.vhd was successful.
+# Compile of assert_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# Compile of timed_counter.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of print_pkg.vhd was successful.
+# Compile of assert_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# Compile of timed_counter.vhd was successful.
+# 5 compiles, 0 failed with no errors.
+vsim work.timed_counter work.timed_counter_tb
+# vsim work.timed_counter work.timed_counter_tb 
+# Start time: 10:31:14 on Sep 10,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter(counter_arch)
+# Loading ieee.numeric_std(body)
+# Loading work.print_pkg(body)
+# Loading ieee.fixed_float_types
+# Loading ieee.math_real(body)
+# Loading ieee.fixed_generic_pkg(body)
+# Loading ieee.float_generic_pkg(body)
+# Loading ieee.fixed_pkg
+# Loading ieee.float_pkg
+# Loading work.assert_pkg(body)
+# Loading std.env(body)
+# Loading work.timed_counter_tb(testbench)
+# ** Fatal: (vsim-3350) Generic "clk_period" has not been given a value.
+#    Time: 0 ps  Iteration: 0  Instance: /timed_counter File: /home/drew/Documents/EELE-467/EELE467-Repo/sim/timed-counter/timed_counter.vhd Line: 10
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 10:31:14 on Sep 10,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 9
