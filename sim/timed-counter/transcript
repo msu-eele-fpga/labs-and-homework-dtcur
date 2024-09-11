@@ -10419,3 +10419,10 @@ run -all
 # End of testbench.
 # 1
 # Break in Process stimuli_generator at /home/drew/Documents/EELE-467/EELE467-Repo/sim/vending-machine/vending_machine_tb.vhd line 72
+add wave -position end  sim:/vending_macine_tb/clk_tb
+add wave -position end  sim:/vending_macine_tb/rst_tb
+add wave -position end  sim:/vending_macine_tb/nickel_tb
+add wave -position end  sim:/vending_macine_tb/dime_tb
+add wave -position end  sim:/vending_macine_tb/dispense_tb
+add wave -position end  sim:/vending_macine_tb/amount_tb
+run -all
