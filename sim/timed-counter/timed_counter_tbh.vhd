@@ -37,9 +37,12 @@ architecture testbench of timed_counter_tb is
 
 	signal enable_100ns_tb	: boolean := false;
 	signal done_100ns_tb	: boolean;
-
-	constant HUNDRED_NS 	: time := 100 ns;
+	signal enable_240ns_tb	: boolean := false;
+	signal done_240ns_tb	: boolean;
 	
+	constant HUNDRED_NS 	: time := 100 ns;
+	constant TWOFOURTY_NS	: time := 240 ns;
+
 	--Check for the appropriate done flag procedure
 	procedure predict_counter_done (
 		constant count_time	: in time;
@@ -62,6 +65,7 @@ architecture testbench of timed_counter_tb is
 	end procedure predict_counter_done;
 
 begin
+	-- 100 ns counter DUT
 	dut_100ns_counter : component timed_counter
 		generic map (
 			clk_period => CLK_PERIOD,
@@ -72,11 +76,25 @@ begin
 			enable => enable_100ns_tb,
 			done => done_100ns_tb
 			);
+	-- 240 ns counter DUT -> Used for testing generics work on different times
+	dut_240ns_counter : component timed_counter
+		generic map (
+			clk_period => CLK_PERIOD,
+			count_time => TWOFOURTY_NS
+			)
+		port map (
+			clk => clk_tb,
+			enable => enable_240ns_tb,
+			done => done_240ns_tb
+			);
+
+
 		clk_tb <= not clk_tb after CLK_PERIOD / 2;
 
-		stimuli_and_checker : process is
+		stimuli_and_checker_100ns : process is
 		begin
-		--Test 100 ns timer when enabled test case #1
+			
+			--Test 100 ns timer when enabled test case #1
 			print("Testing 100 ns timer: enabled");
 			wait_for_clock_edge(clk_tb);
 			enable_100ns_tb <= true; 
@@ -112,16 +130,55 @@ begin
 					predict_counter_done(HUNDRED_NS, enable_100ns_tb, done_100ns_tb, x);
 				end loop;
 			end loop;
+			enable_100ns_tb <= false;
+		end process stimuli_and_checker_100ns;
+
+		--Test DUT #2 240 ns
+		stimuli_and_checker_240ns : process is
+		begin
 		
+			--Test 100 ns timer when enabled test case #1
+			print("Testing 240 ns timer: enabled");
+			wait_for_clock_edge(clk_tb);
+			enable_240ns_tb <= true; 
+
+			--Loop for the number of clock cycles that is equal to the timer period
+
+			for i in 0 to (TWOFOURTY_NS / CLK_PERIOD) loop
+				wait_for_clock_edge(clk_tb);
+				-- Test for correct done output
+			       	predict_counter_done(TWOFOURTY_NS, enable_240ns_tb, done_240ns_tb, i);
+			end loop;
 			
+			-- End test #1
+			if done_240ns_tb then
+				enable_240ns_tb <= false;
+			end if;
 
-			-- 
+			-- Test condition #2 set enable low for two close cycles and ensure done is not asserted properly
+			wait_for_clock_edge(clk_tb);
+			enable_240ns_tb <= false;
+			wait_for_clock_edge(clk_tb);
+			enable_240ns_tb <= false;
 
-			--Add additional test cases as needed
+			-- Test for two consecutive timer counts test case #3
+			print("Testing 240 ns timer: enabled, nested loops");
+			wait_for_clock_edge(clk_tb);
+			enable_240ns_tb <= true;
 
+			for y in 0 to 2 loop
+				for x in 0 to (TWOFOURTY_NS / CLK_PERIOD) loop
+					wait_for_clock_edge(clk_tb);
+					--Test for correct done flag 
+					predict_counter_done(TWOFOURTY_NS, enable_240ns_tb, done_240ns_tb, x);
+				end loop;
+			end loop;
+	
+
+			--End simulation
 			std.env.finish;
 
-		end process stimuli_and_checker;
+		end process stimuli_and_checker_240ns;
 
 end architecture testbench;
 

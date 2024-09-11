@@ -821,3 +821,168 @@ run
 # Testing 100 ns timer: enabled, nested loops
 # 1
 # Break in Process stimuli_and_checker at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 121
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd failed with 1 errors.
+# 5 compiles, 1 failed with 1 error.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd failed with 10 errors.
+# 5 compiles, 1 failed with 10 errors.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd failed with 1 errors.
+# 5 compiles, 1 failed with 1 error.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.print_pkg(body)
+# Loading work.assert_pkg(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter_tb(testbench)
+# Loading work.timed_counter(counter_arch)
+run
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# Testing 240 ns timer: enabled
+# Testing 240 ns timer: enabled, nested loops
+# 1
+# Break in Process stimuli_and_checker at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 175
+add wave -position insertpoint  \
+sim:/timed_counter_tb/enable_240ns_tb \
+sim:/timed_counter_tb/done_240ns_tb
+restart
+run
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# Testing 240 ns timer: enabled
+# Testing 240 ns timer: enabled, nested loops
+# 1
+# Break in Process stimuli_and_checker at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 175
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.print_pkg(body)
+# Loading work.assert_pkg(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter_tb(testbench)
+# Loading work.timed_counter(counter_arch)
+run
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# Testing 240 ns timer: enabled
+# Testing 240 ns timer: enabled, nested loops
+# 1
+# Break in Process stimuli_and_checker at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 175
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.print_pkg(body)
+# Loading work.assert_pkg(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter_tb(testbench)
+# Loading work.timed_counter(counter_arch)
+run
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# Testing 240 ns timer: enabled
+# Testing 240 ns timer: enabled, nested loops
+# 1
+# Break in Process stimuli_and_checker at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 175
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd failed with 3 errors.
+# 5 compiles, 1 failed with 3 errors.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd failed with 1 errors.
+# 5 compiles, 1 failed with 1 error.
+# Compile of assert_pkg.vhd was successful.
+# Compile of print_pkg.vhd was successful.
+# Compile of tb_pkg.vhd was successful.
+# Compile of timed_counter.vhd was successful.
+# Compile of timed_counter_tbh.vhd was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.print_pkg(body)
+# Loading work.assert_pkg(body)
+# Loading work.tb_pkg(body)
+# Loading work.timed_counter_tb(testbench)
+# Loading work.timed_counter(counter_arch)
+run
+# Testing 240 ns timer: enabled
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# Testing 240 ns timer: enabled, nested loops
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# 1
+# Break in Process stimuli_and_checker_240ns at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 179
+add wave -position insertpoint  \
+sim:/timed_counter_tb/clk_tb
+add wave -position insertpoint  \
+sim:/timed_counter_tb/enable_100ns_tb \
+sim:/timed_counter_tb/done_100ns_tb
+add wave -position insertpoint  \
+sim:/timed_counter_tb/dut_100ns_counter/counter
+add wave -position insertpoint  \
+sim:/timed_counter_tb/enable_240ns_tb \
+sim:/timed_counter_tb/done_240ns_tb
+add wave -position insertpoint  \
+sim:/timed_counter_tb/dut_240ns_counter/counter
+run
+# Testing 240 ns timer: enabled
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# ** Failure: error in test case 'Counter not done'
+#    Time: 1371 ns  Iteration: 0  Process: /timed_counter_tb/stimuli_and_checker_240ns File: /home/drew/Documents/EELE-467/sim/common/assert_pkg.vhd
+# Break in Subprogram assert_that at /home/drew/Documents/EELE-467/sim/common/assert_pkg.vhd line 63
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+run
+# Testing 240 ns timer: enabled
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# Testing 240 ns timer: enabled, nested loops
+# Testing 100 ns timer: enabled
+# Testing 100 ns timer: enabled, nested loops
+# 1
+# Break in Process stimuli_and_checker_240ns at /home/drew/Documents/EELE-467/sim/timed-counter/timed_counter_tbh.vhd line 179
