@@ -26,7 +26,6 @@ begin
                   current_state <= zero_cents;
             elsif (rising_edge(clk)) then 
                   current_state <= next_state;
-		  amount <= MoneyTracker;
             end if;
       end process;
       --NEXT state logic to control which state to move to from the current state
@@ -67,33 +66,22 @@ begin
 
       --OUTPUT Logic to both display for current amount inserted and if dispense
       --Combinational logic
-      OUTPUT_LOGIC : process (current_state, nickel, dime)
+      OUTPUT_LOGIC : process (current_state)
       begin
    
             --Determine dispense signal based on current state
             case(current_state) is 
                   when zero_cents     =>   dispense <= '0';
-						MoneyTracker <= 0;
-                  
+						amount <= 0;
+                  				
 		  when five_cents         =>  dispense <= '0';
-                                          if nickel = '1' or dime = '1' then       
-                                                if MoneyTracker >= 10 then
-                                                      MoneyTracker <= 15;
-                                                else 
-                                                      MoneyTracker <= MoneyTracker + 5;
-                                                end if;
-                                          end if;
+                                     		amount <= amount + 5;
+
 
                   when ten_cents      =>  dispense <= '0';
-                                          if dime = '1' or nickel = '1' then 
-                                                if MoneyTracker >= 5 then
-                                                      MoneyTracker <= 15;
-                                                else 
-                                                      MoneyTracker <= MoneyTracker + 10;
-                                                end if;
-					  end if;
+                                              amount <= 10;
                   when fifteen_cents      =>    dispense <= '1';
-                                                MoneyTracker <= 0;
+						amount <= 15;
                                                 
                   when others             => 	dispense <= '0';
             end case;
