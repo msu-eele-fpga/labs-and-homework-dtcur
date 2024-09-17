@@ -33,6 +33,7 @@ begin
 
 		if rst = '1' then 
 			Latch <= '0';
+			pulse <= '0';
 		end if;
 	end process;
 end architecture; 
