@@ -32,7 +32,7 @@ architecture testbench of one_pulse_tb is
 	signal input_tb	: std_ulogic := '0';	
 	signal rst_tb	: std_ulogic := '1';
 	signal pulse_tb : std_ulogic := '0';
-
+		
 
 begin
 	-- Create the one pulse duv	
@@ -48,33 +48,81 @@ begin
 	clk_tb <= not clk_tb after CLK_PERIOD / 2;
 	
 	stimuli_and_checker : process is
+	--Expected pulse signal for verification
+	variable pulse_expected : std_logic := '0';
+	
 	begin
-		-- Start low for a while holding reset for 10 clock cycles
-		wait_for_clock_edges(clk_tb, 10);
-		-- Wait fo clock peroid then change
-		wait for CLK_PERIOD / 2;
 		
-		rst_tb <= '0';
 		
-		-- Test no input and reset off to make sure no pulse
+		-- Start low input with high reset, ensure reset test passes. 
+		print("========================================================================");
+		print("Testing reset condition");
+		print("========================================================================");
+		rst_tb <= '1';
+		pulse_expected := '0';
+		assert_eq(pulse_tb, pulse_expected, "While held in reset");
 		wait_for_clock_edges(clk_tb, 5);
-
-
-		-- Set Input high for two clock pulses and ensure it maps to pulse for one pulse
+		---Test input during reset, ensure input rejection.
+		print("     Test: Input while reset");
+		wait_for_clock_edge(clk_tb);
+		rst_tb <= '1';
 		input_tb <= '1';
+		pulse_expected := '0';
+		assert_eq(pulse_tb, pulse_expected, "While held in reset with input");
+		wait_for_clock_edges(clk_tb, 5);
+		
+		input_tb <= '0'; --Reset input testbench before next test
+		wait_for_clock_edges(clk_tb, 2); -- Delay before starting next test
+		
+		-- Test for idle case ie if there is no input for multiple clock cycles but not reset		
+		print("========================================================================");
+		print("Testing idle condition");
+		print("========================================================================");
+		wait for CLK_PERIOD/2; --Wait before disabling reset
+		rst_tb <= '0';
+		pulse_expected := '0';
+		print("     Test: Idle state");
+		wait_for_clock_edges(clk_tb, 5);
+		assert_eq(pulse_tb, pulse_expected, "Idle no input, no reset");
+
+		-- Test set input high for two clock cycles and verify pulse only triggers for one pulse
+		print("======================================================================");
+		print("Testing input response");
+		print("======================================================================");
+		print("    Test: No input change before pulse");
+		pulse_expected := '0';
+		input_tb <= '0';
+		assert_eq(pulse_tb, pulse_expected, "Idle no input before input");
+		wait_for_clock_edges(clk_tb, 2);
+		input_tb <= '1';
+		pulse_expected := '1';
+		print("    Test: Input creates a high output");
+		wait for CLK_PERIOD;
+		assert_eq(pulse_tb, pulse_expected, "Pulse goes high at expected time");	
 		wait_for_clock_edges(clk_tb, 2);
 		input_tb <= '0';
 		wait_for_clock_edges(clk_tb, 3);
+		wait for CLK_PERIOD;
+		print("    Test: Pulse goes low after one clock cycle");
+		pulse_expected := '0';
+		assert_eq(pulse_tb, pulse_expected, "Pulse goes low at expected time");
 
-		--Set input low in the middle of a clock pulse
+		--Test setting input low during a pulse 
+		print("==================================================================");
+		print("Testing pulse does not change if input changes during pulse");
+		print("==================================================================");
 		wait_for_clock_edge(clk_tb);
-		wait for CLK_PERIOD / 4;
 		input_tb <= '1';
-		wait_for_clock_edges(clk_tb, 2);
-		wait for CLK_PERIOD / 4;
+		pulse_expected := '1';
+		wait for CLK_PERIOD + CLK_PERIOD / 4;
 		input_tb <= '0';
-		wait_for_clock_edges(clk_tb, 5);
-		
+		wait for CLK_PERIOD / 4;
+		assert_eq(pulse_tb, pulse_expected, "Pulse stays high when input changes during pulse");
+		wait_for_clock_edges(clk_tb,2);
+
+		--Delay for a few clock cycles with reset asserted before ending
+		rst_tb <= '1';
+		wait_for_clock_edges(clk_tb, 4);
 		std.env.finish;
 
 	end process;
