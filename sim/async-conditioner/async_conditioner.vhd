@@ -13,7 +13,7 @@ end entity;
 architecture conditioner of async_conditioner is
 
   --Declare constants:
-  constant debounce_time : time := 1000 ns; --Arbitrary debounce time this corresponds to 5 clock cycles at default clock
+  constant debounce_time : time := 500 ns; --Arbitrary debounce time this corresponds to 5 clock cycles at default clock
   constant clk_period    : time := 20 ns;
 
   --Signals that will be needed in the conditioner
