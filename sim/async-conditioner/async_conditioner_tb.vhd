@@ -148,8 +148,31 @@ begin
       print("    Test: Pulse goes low after one clock cycle");
       pulse_expected := '0';
       assert_eq(pulse_tb, pulse_expected, "Pulse goes low at expected time");
-      wait_for_clock_edges(clk_tb, 2); -- Delay before starting next test
+      wait_for_clock_edges(clk_tb, 40); -- Delay before starting next test
+      ------------------------------------------------------------------------------------------------------------------------
+      --Test setting input low during a pulse 
+      print("==================================================================");
+      print("Testing pulse does not change if input changes during pulse");
+      print("==================================================================");
+      wait_for_clock_edge(clk_tb);
+      bouncer_tb <= '1';
+      pulse_expected := '1';
+      wait for CLK_PERIOD + CLK_PERIOD / 4;
+      bouncer_tb <= '0';
+      wait for CLK_PERIOD / 4;
+      wait_for_clock_edges(clk_tb, 3);
+      assert_eq(pulse_tb, pulse_expected, "Pulse stays high when input changes during pulse");
+      wait_for_clock_edges(clk_tb, 20);
 
+      --Delay for a few clock cycles with reset asserted before ending
+      print("==================================================================");
+      print("Testing reset clears at end");
+      print("==================================================================");
+      wait_for_clock_edge(clk_tb);
+      rst_tb <= '1';
+      pulse_expected := '0';
+      assert_eq(pulse_tb, pulse_expected, "Pulse stays low when reset at end");
+      wait_for_clock_edges(clk_tb, 4);
       std.env.finish;
     end process;
   end architecture;
