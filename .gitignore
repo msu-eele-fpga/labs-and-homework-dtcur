@@ -109,3 +109,6 @@ transcript
 
 # Vim swap files
 *.swp
+# VSCode stuff
+.history/
+
