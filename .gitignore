@@ -105,5 +105,6 @@ vsim.wlf
 *.cr.mti
 work/
 
-
+# VSCode stuff
+.history/
 
