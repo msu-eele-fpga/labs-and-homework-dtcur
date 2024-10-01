@@ -63,17 +63,38 @@ begin
       button_tb               <= '1';
       wait_for_clock_edges(clk_tb, 1);
       button_tb <= '0';
-      wait_for_clock_edges(clk_tb, 30);
+      wait_for_clock_edges(clk_tb, 5E7);
+      wait_for_clock_edges(clk_tb, 5E7);
       switches_tb(3 downto 0) <= "0001";
       button_tb               <= '1';
       wait_for_clock_edges(clk_tb, 1);
       button_tb <= '0';
-      wait_for_clock_edges(clk_tb, 30);
+      wait_for_clock_edges(clk_tb, 5E7);
+      wait_for_clock_edges(clk_tb, 5E7);
       switches_tb(3 downto 0) <= "0010";
       button_tb               <= '1';
       wait_for_clock_edges(clk_tb, 1);
       button_tb <= '0';
-      wait_for_clock_edges(clk_tb, 100);
+      wait_for_clock_edges(clk_tb, 5E7);
+
+      wait_for_clock_edges(clk_tb, 5E7);
+      switches_tb(3 downto 0) <= "0011";
+      button_tb               <= '1';
+      wait_for_clock_edges(clk_tb, 1);
+      button_tb <= '0';
+      wait_for_clock_edges(clk_tb, 5E7);
+
+      wait_for_clock_edges(clk_tb, 5E7);
+      switches_tb(3 downto 0) <= "0100";
+      button_tb <= '1';
+      wait_for_clock_edges(clk_tb, 1);
+      button_tb <= '0';
+      wait_for_clock_edges(clk_tb, 5E7);
+
+      wait_for_clock_edges(clk_tb, 5E7);
+      rst_tb <= '1';
+      wait_for_clock_edges(clk_tb, 10);
+
       std.env.finish;
     end process;
   end architecture;
