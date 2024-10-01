@@ -160,7 +160,7 @@ begin
             end case;
             when 2 =>
             up_counter_pattern_tracker := up_counter_pattern_tracker + 1;
-            led(6 downto 0) <= std_logic_vector(to_unsigned(up_counter_pattern_tracker, 6));
+            led(6 downto 0) <= std_ulogic_vector(to_unsigned(up_counter_pattern_tracker, 6));
             when 3 =>
             led(6 downto 0) <= "0000011";
             when 4 =>
