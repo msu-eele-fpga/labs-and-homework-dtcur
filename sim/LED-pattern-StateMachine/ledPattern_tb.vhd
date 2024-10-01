@@ -27,11 +27,11 @@ architecture testbench of led_patterns_tb is
   end component;
 
   --Testbench signals
-  signal clk_tb         : std_ulogic := '0';
-  signal rst_tb         : std_ulogic := '1';
-  signal button_tb      : std_ulogic := '0';
-  signal switches_tb    : std_ulogic_vector(3 downto 0);
-  signal base_period_tb : unsigned(7 downto 0) := "00000010";
+  signal clk_tb         : std_ulogic                    := '0';
+  signal rst_tb         : std_ulogic                    := '1';
+  signal button_tb      : std_ulogic                    := '0';
+  signal switches_tb    : std_ulogic_vector(3 downto 0) := "0000";
+  signal base_period_tb : unsigned(7 downto 0)          := "00000010";
   signal leds_tb        : std_ulogic_vector(7 downto 0);
 
 begin
@@ -59,15 +59,21 @@ begin
       wait_for_clock_edges(clK_tb, 3);
       rst_tb <= '0';
       wait_for_clock_edges(clk_tb, 10);
-      button_tb <= '1';
-      wait_for_clock_edges(clk_tb, 10);
+      switches_tb(3 downto 0) <= "0000";
+      button_tb               <= '1';
+      wait_for_clock_edges(clk_tb, 1);
+      button_tb <= '0';
+      wait_for_clock_edges(clk_tb, 30);
       switches_tb(3 downto 0) <= "0001";
-      wait_for_clock_edges(clk_tb, 10);
+      button_tb               <= '1';
+      wait_for_clock_edges(clk_tb, 1);
+      button_tb <= '0';
+      wait_for_clock_edges(clk_tb, 30);
       switches_tb(3 downto 0) <= "0010";
-      wait_for_clock_edges(clk_tb, 10);
-      switches_tb(3 downto 0) <= "0011";
-      wait_for_clock_edges(clk_tb, 10);
-      switches_tb(3 downto 0) <= "0100";
+      button_tb               <= '1';
+      wait_for_clock_edges(clk_tb, 1);
+      button_tb <= '0';
+      wait_for_clock_edges(clk_tb, 100);
       std.env.finish;
     end process;
   end architecture;
