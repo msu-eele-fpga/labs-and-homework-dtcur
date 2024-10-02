@@ -1,7 +1,5 @@
 library ieee;
 use ieee.std_logic_1164.all;
---Use the package created for this homework
-use work.tb_pkg.all;
 
 
 

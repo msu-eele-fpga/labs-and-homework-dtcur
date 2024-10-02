@@ -2,8 +2,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
---Use the package created for this homework
-use work.tb_pkg.all;
 
 entity clock_divider is
   port (
