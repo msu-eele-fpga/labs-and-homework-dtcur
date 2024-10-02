@@ -38,9 +38,7 @@ begin
 
   --Create the LED Pattern state machine
   duv : component led_patterns
-    generic map(
-      system_clock_period => CLK_PERIOD
-    )
+
     port map(
       clk             => clk_tb,
       rst             => rst_tb,

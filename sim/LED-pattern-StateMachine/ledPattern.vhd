@@ -25,7 +25,7 @@ architecture pattern of led_patterns is
   signal clock_divider_done, base_rate_done     : boolean;
 
   signal Half_base_period_integer, Quarter_base_period_integer, Eighth_base_period_integer, Twice_base_period_integer : integer;
-  signal Half_divider_done, Quarter_divider_done, Eighth_divider_done, Twice_divider_done                             : boolean;
+  signal Half_divider_done, Quarter_divider_done, Eighth_divider_done, Twice_divider_done : boolean;
   -- Base Rate calcualtion signals
   signal base_period_integer, base_period_fractional : integer;
   --LED mode integer
@@ -130,8 +130,6 @@ begin
     end case;
   end process;
 
-
-
   --Ouput logic to both display the LED patterns and switches on button press
   SWITCHS_AND_7LED_LOGIC : process (current_state, base_rate_done, Half_divider_done, Quarter_divider_done, Eighth_divider_done, Twice_divider_done, rst)
     variable base_counter_tracker         : natural range 0 to 8   := 0;
@@ -148,7 +146,7 @@ begin
       case(current_state) is
         when idle =>
         if (base_rate_done) then
-          led(7) <= not led(7);
+          led(7) <= '1';
         end if;
         if (clock_enable_baseRate = false) then
           clock_enable_baseRate <= true;
@@ -164,76 +162,76 @@ begin
         end if;
 
         when ledPatternOut =>
-        if (base_rate_done) then
+        /*if (base_rate_done) then
           led(7) <= not led(7);
-        end
-        case(LEDMode) is
-          when 0 =>
-          if (Half_divider_done) then
-            Half_base_counter_tracker := Half_base_counter_tracker + 1;
-            case(Half_base_counter_tracker) is
-              when 1 => led(6 downto 0) <= "0000000";
-              when 2 => led(6 downto 0) <= "1000000";
-              when 3 => led(6 downto 0) <= "0100000";
-              when 4 => led(6 downto 0) <= "0010000";
-              when 5 => led(6 downto 0) <= "0001000";
-              when 6 => led(6 downto 0) <= "0000100";
-              when 7 => led(6 downto 0) <= "0000010";
-              when 8 => led(6 downto 0) <= "0000001";
-              Half_base_counter_tracker                := 1;
-              when others => Half_base_counter_tracker := 1;
-            end case;
-          end if;
-          when 1 =>
-          if (Quarter_divider_done) then
-            Quarter_base_counter_tracker := Quarter_base_counter_tracker + 1;
-            case(Quarter_base_counter_tracker) is
-              when 1 => led(6 downto 0) <= "0000011";
-              when 2 => led(6 downto 0) <= "0000110";
-              when 3 => led(6 downto 0) <= "0001100";
-              when 4 => led(6 downto 0) <= "0011000";
-              when 5 => led(6 downto 0) <= "0110000";
-              when 6 => led(6 downto 0) <= "1100000";
-              when 7 => led(6 downto 0) <= "1000001";
-              when 8 => led(6 downto 0) <= "0000011";
-              Quarter_base_counter_tracker                := 1;
-              when others => Quarter_base_counter_tracker := 1;
-            end case;
-          end if;
-          when 2 =>
-          if (Twice_divider_done) then
-            Twice_base_counter_tracker := Twice_base_counter_tracker + 1;
-            if (Twice_base_counter_tracker = 128) then
-              Twice_base_counter_tracker := 0;
+        end if;*/
+          case(LEDMode) is
+            when 0 =>
+            if (base_rate_done) then
+				  led(7) <= not led(7);
+              base_counter_tracker := base_counter_tracker + 1;
+              case(base_counter_tracker) is
+                when 1 => led(6 downto 0) <= "0000000";
+                when 2 => led(6 downto 0) <= "1000000";
+                when 3 => led(6 downto 0) <= "0100000";
+                when 4 => led(6 downto 0) <= "0010000";
+                when 5 => led(6 downto 0) <= "0001000";
+                when 6 => led(6 downto 0) <= "0000100";
+                when 7 => led(6 downto 0) <= "0000010";
+                when 8 => led(6 downto 0) <= "0000001";
+                base_counter_tracker                := 1;
+                when others => base_counter_tracker := 1;
+              end case;
             end if;
-            led(6 downto 0) <= std_ulogic_vector(to_unsigned(counter_patterns_tracker, 7));
-          end if;
-          when 3 =>
-          if (Eighth_divider_done) then
-            counter_patterns_tracker := counter_patterns_tracker - 1;
-            if (counter_patterns_tracker = 0) then
-              counter_patterns_tracker := 127;
+            /*when 1 =>
+            if (Quarter_divider_done) then
+              Quarter_base_counter_tracker := Quarter_base_counter_tracker + 1;
+              case(Quarter_base_counter_tracker) is
+                when 1 => led(6 downto 0) <= "0000011";
+                when 2 => led(6 downto 0) <= "0000110";
+                when 3 => led(6 downto 0) <= "0001100";
+                when 4 => led(6 downto 0) <= "0011000";
+                when 5 => led(6 downto 0) <= "0110000";
+                when 6 => led(6 downto 0) <= "1100000";
+                when 7 => led(6 downto 0) <= "1000001";
+                when 8 => led(6 downto 0) <= "0000011";
+                Quarter_base_counter_tracker                := 1;
+                when others => Quarter_base_counter_tracker := 1;
+              end case;
             end if;
-            led(6 downto 0) <= std_ulogic_vector(to_unsigned(counter_patterns_tracker, 7));
-          end if;
-          when 4 =>
-          base_counter_tracker := base_counter_tracker + 1;
-          case(base_counter_tracker) is
-            when 1 => led(6 downto 0) <= "0001000";
-            when 2 => led(6 downto 0) <= "0010100";
-            when 3 => led(6 downto 0) <= "0100010";
-            when 4 => led(6 downto 0) <= "1000001";
-            when 5 => led(6 downto 0) <= "0100010";
-            when 6 => led(6 downto 0) <= "0010100";
-            when 7 => led(6 downto 0) <= "0001000";
-            when 8 => led(6 downto 0) <= "0000000";
-            base_counter_tracker                := 1;
-            when others => base_counter_tracker := 1;
+            when 2 =>
+            if (Twice_divider_done) then
+              Twice_base_counter_tracker := Twice_base_counter_tracker + 1;
+              if (Twice_base_counter_tracker = 128) then
+                Twice_base_counter_tracker := 0;
+              end if;
+              led(6 downto 0) <= std_ulogic_vector(to_unsigned(counter_patterns_tracker, 7));
+            end if;
+            when 3 =>
+            if (Eighth_divider_done) then
+              counter_patterns_tracker := counter_patterns_tracker - 1;
+              if (counter_patterns_tracker = 0) then
+                counter_patterns_tracker := 127;
+              end if;
+              led(6 downto 0) <= std_ulogic_vector(to_unsigned(counter_patterns_tracker, 7));
+            end if;
+            when 4 =>
+            base_counter_tracker := base_counter_tracker + 1;
+            case(base_counter_tracker) is
+              when 1 => led(6 downto 0) <= "0001000";
+              when 2 => led(6 downto 0) <= "0010100";
+              when 3 => led(6 downto 0) <= "0100010";
+              when 4 => led(6 downto 0) <= "1000001";
+              when 5 => led(6 downto 0) <= "0100010";
+              when 6 => led(6 downto 0) <= "0010100";
+              when 7 => led(6 downto 0) <= "0001000";
+              when 8 => led(6 downto 0) <= "0000000";
+              base_counter_tracker                := 1;*/
+              --when others => base_counter_tracker := 1;
+            --end case;
+            when others => led(6 downto 0) <= "1111111";
           end case;
-          when others => led(6 downto 0) <= "0000000";
-        end case;
-      end if;
-    end case;
-  end if;
-end process;
+      end case;
+    end if;
+  end process;
 end architecture;
