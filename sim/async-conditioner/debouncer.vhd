@@ -84,11 +84,12 @@ begin
       end if;
       when output_low =>
       if done_delay = false then -- If still counting do nothing
-        --do nothing
+        start_clock <= start_clock;
       else
         next_state  <= idle; -- If done counting return to idle state
         start_clock <= '0'; -- Disable the counter
       end if;
+		when others => next_state <= next_state;
 
     end case;
   end process;
