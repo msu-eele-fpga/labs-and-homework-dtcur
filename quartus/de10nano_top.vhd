@@ -125,10 +125,10 @@ begin
       clk             => fpga_clk2_50,
       rst             => not push_button_n(1),
       push_button     => ButtonMapping,
-      switches        => "0000",
+      switches        => sw,
       hps_led_control => false,
-      base_period     => "00010000",
-      led_reg         => "00000000",
+      base_period     => "10000000",
+      led_reg         => "10101010",
       led             => led
     );	 
 	 
