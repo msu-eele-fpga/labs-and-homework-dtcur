@@ -1,8 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-
-
 entity clock_divider is
   port (
     count  : in integer;
@@ -14,7 +12,7 @@ entity clock_divider is
 end entity clock_divider;
 
 architecture counter_arch of clock_divider is
-  signal counter : integer;
+  signal counter : integer := 0;
 
 begin
   proc_clock_divider : process (clk, enable)
