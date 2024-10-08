@@ -10,7 +10,7 @@ The goal of this lab was to create a hardware implementation of a state machine 
 The system will be responsible for taking in user input from the switches and push button. The push button will change to the next pattern based on the value selected on the switches. The switches can represent a maximum of 15 decimal however, only 4 patterns are available. If an input of greater than 4 is entered, the system will reject the new input and keep the previous pattern. 
 
 <p align="center">
-<img src="./assets/Lab04-Resources/Lab04_ConceptualBlockDiagram_V3.png">
+<img src="./assets/Lab04-Resources/Lab04_ConceptualBlockDiagram_V4.png">
 </p>
 
 
