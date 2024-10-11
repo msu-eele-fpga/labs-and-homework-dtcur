@@ -1,3 +1,8 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+
 entity de10nano_top is
   port (
     ----------------------------------------
@@ -170,7 +175,7 @@ entity de10nano_top is
     adc_sdo    : in std_ulogic
   );
 end entity de10nano_top;
-architecture de10nano of de10nano_top is
+architecture de10nano_arch of de10nano_top is
 
   --Async Conditioner component
   component async_conditioner is
@@ -181,25 +186,184 @@ architecture de10nano of de10nano_top is
       button_pulse : out std_ulogic
     );
   end component;
-
-  --LED pattern generator component
-  component led_patterns is
+  
+  --soc_system declaration---------------------------------------------------------------------------------------
+    component soc_system is
     port (
-      clk             : in std_ulogic;
-      rst             : in std_ulogic;
-      push_button     : in std_ulogic;
-      switches        : in std_ulogic_vector(3 downto 0);
-      hps_led_control : in boolean;
-      base_period     : in unsigned(7 downto 0);
-      led_reg         : in std_ulogic_vector (7 downto 0);
-      led             : out std_ulogic_vector(7 downto 0)
+      hps_io_hps_io_emac1_inst_tx_clk : out   std_logic;
+      hps_io_hps_io_emac1_inst_txd0   : out   std_logic;
+      hps_io_hps_io_emac1_inst_txd1   : out   std_logic;
+      hps_io_hps_io_emac1_inst_txd2   : out   std_logic;
+      hps_io_hps_io_emac1_inst_txd3   : out   std_logic;
+      hps_io_hps_io_emac1_inst_rxd0   : in    std_logic;
+      hps_io_hps_io_emac1_inst_mdio   : inout std_logic;
+      hps_io_hps_io_emac1_inst_mdc    : out   std_logic;
+      hps_io_hps_io_emac1_inst_rx_ctl : in    std_logic;
+      hps_io_hps_io_emac1_inst_tx_ctl : out   std_logic;
+      hps_io_hps_io_emac1_inst_rx_clk : in    std_logic;
+      hps_io_hps_io_emac1_inst_rxd1   : in    std_logic;
+      hps_io_hps_io_emac1_inst_rxd2   : in    std_logic;
+      hps_io_hps_io_emac1_inst_rxd3   : in    std_logic;
+      hps_io_hps_io_sdio_inst_cmd     : inout std_logic;
+      hps_io_hps_io_sdio_inst_d0      : inout std_logic;
+      hps_io_hps_io_sdio_inst_d1      : inout std_logic;
+      hps_io_hps_io_sdio_inst_clk     : out   std_logic;
+      hps_io_hps_io_sdio_inst_d2      : inout std_logic;
+      hps_io_hps_io_sdio_inst_d3      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d0      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d1      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d2      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d3      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d4      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d5      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d6      : inout std_logic;
+      hps_io_hps_io_usb1_inst_d7      : inout std_logic;
+      hps_io_hps_io_usb1_inst_clk     : in    std_logic;
+      hps_io_hps_io_usb1_inst_stp     : out   std_logic;
+      hps_io_hps_io_usb1_inst_dir     : in    std_logic;
+      hps_io_hps_io_usb1_inst_nxt     : in    std_logic;
+      hps_io_hps_io_spim1_inst_clk    : out   std_logic;
+      hps_io_hps_io_spim1_inst_mosi   : out   std_logic;
+      hps_io_hps_io_spim1_inst_miso   : in    std_logic;
+      hps_io_hps_io_spim1_inst_ss0    : out   std_logic;
+      hps_io_hps_io_uart0_inst_rx     : in    std_logic;
+      hps_io_hps_io_uart0_inst_tx     : out   std_logic;
+      hps_io_hps_io_i2c0_inst_sda     : inout std_logic;
+      hps_io_hps_io_i2c0_inst_scl     : inout std_logic;
+      hps_io_hps_io_i2c1_inst_sda     : inout std_logic;
+      hps_io_hps_io_i2c1_inst_scl     : inout std_logic;
+      hps_io_hps_io_gpio_inst_gpio09  : inout std_logic;
+      hps_io_hps_io_gpio_inst_gpio35  : inout std_logic;
+      hps_io_hps_io_gpio_inst_gpio40  : inout std_logic;
+      hps_io_hps_io_gpio_inst_gpio53  : inout std_logic;
+      hps_io_hps_io_gpio_inst_gpio54  : inout std_logic;
+      hps_io_hps_io_gpio_inst_gpio61  : inout std_logic;
+      memory_mem_a                    : out   std_logic_vector(14 downto 0);
+      memory_mem_ba                   : out   std_logic_vector(2 downto 0);
+      memory_mem_ck                   : out   std_logic;
+      memory_mem_ck_n                 : out   std_logic;
+      memory_mem_cke                  : out   std_logic;
+      memory_mem_cs_n                 : out   std_logic;
+      memory_mem_ras_n                : out   std_logic;
+      memory_mem_cas_n                : out   std_logic;
+      memory_mem_we_n                 : out   std_logic;
+      memory_mem_reset_n              : out   std_logic;
+      memory_mem_dq                   : inout std_logic_vector(31 downto 0);
+      memory_mem_dqs                  : inout std_logic_vector(3 downto 0);
+      memory_mem_dqs_n                : inout std_logic_vector(3 downto 0);
+      memory_mem_odt                  : out   std_logic;
+      memory_mem_dm                   : out   std_logic_vector(3 downto 0);
+      memory_oct_rzqin                : in    std_logic;
+		led_patterns_push_button        : in    std_ulogic                     := 'X';             -- push_button
+		led_patterns_led                : out   std_ulogic_vector(7 downto 0);                     -- led
+      led_patterns_switches           : in    std_ulogic_vector(3 downto 0)  := (others => 'X'); -- switches
+				
+      clk_clk                         : in    std_logic;
+      reset_reset_n                   : in    std_logic
     );
-  end component;
+  end component soc_system;
+ 
+ ---End soc_system declaration-----------------------------------------------------------------------------------------
 
   --Internal pulse signal to connect conditioner to led patterns
   signal ButtonMapping : std_ulogic;
 
 begin
+
+---Create soc_system componentto_stdulogicvector ----------------------------------------------------------------------------------------
+
+  u0 : component soc_system
+    port map (
+      -- ethernet
+      hps_io_hps_io_emac1_inst_tx_clk => hps_enet_gtx_clk,
+      hps_io_hps_io_emac1_inst_txd0   => hps_enet_tx_data(0),
+      hps_io_hps_io_emac1_inst_txd1   => hps_enet_tx_data(1),
+      hps_io_hps_io_emac1_inst_txd2   => hps_enet_tx_data(2),
+      hps_io_hps_io_emac1_inst_txd3   => hps_enet_tx_data(3),
+      hps_io_hps_io_emac1_inst_mdio   => hps_enet_mdio,
+      hps_io_hps_io_emac1_inst_mdc    => hps_enet_mdc,
+      hps_io_hps_io_emac1_inst_rx_ctl => hps_enet_rx_dv,
+      hps_io_hps_io_emac1_inst_tx_ctl => hps_enet_tx_en,
+      hps_io_hps_io_emac1_inst_rx_clk => hps_enet_rx_clk,
+      hps_io_hps_io_emac1_inst_rxd0   => hps_enet_rx_data(0),
+      hps_io_hps_io_emac1_inst_rxd1   => hps_enet_rx_data(1),
+      hps_io_hps_io_emac1_inst_rxd2   => hps_enet_rx_data(2),
+      hps_io_hps_io_emac1_inst_rxd3   => hps_enet_rx_data(3),
+      hps_io_hps_io_gpio_inst_gpio35  => hps_enet_int_n,
+
+      -- sd card
+      hps_io_hps_io_sdio_inst_cmd => hps_sd_cmd,
+      hps_io_hps_io_sdio_inst_clk => hps_sd_clk,
+      hps_io_hps_io_sdio_inst_d0  => hps_sd_data(0),
+      hps_io_hps_io_sdio_inst_d1  => hps_sd_data(1),
+      hps_io_hps_io_sdio_inst_d2  => hps_sd_data(2),
+      hps_io_hps_io_sdio_inst_d3  => hps_sd_data(3),
+
+      -- usb
+      hps_io_hps_io_usb1_inst_d0  => hps_usb_data(0),
+      hps_io_hps_io_usb1_inst_d1  => hps_usb_data(1),
+      hps_io_hps_io_usb1_inst_d2  => hps_usb_data(2),
+      hps_io_hps_io_usb1_inst_d3  => hps_usb_data(3),
+      hps_io_hps_io_usb1_inst_d4  => hps_usb_data(4),
+      hps_io_hps_io_usb1_inst_d5  => hps_usb_data(5),
+      hps_io_hps_io_usb1_inst_d6  => hps_usb_data(6),
+      hps_io_hps_io_usb1_inst_d7  => hps_usb_data(7),
+      hps_io_hps_io_usb1_inst_clk => hps_usb_clkout,
+      hps_io_hps_io_usb1_inst_stp => hps_usb_stp,
+      hps_io_hps_io_usb1_inst_dir => hps_usb_dir,
+      hps_io_hps_io_usb1_inst_nxt => hps_usb_nxt,
+
+      -- UART
+      hps_io_hps_io_uart0_inst_rx    => hps_uart_rx,
+      hps_io_hps_io_uart0_inst_tx    => hps_uart_tx,
+      hps_io_hps_io_gpio_inst_gpio09 => hps_conv_usb_n,
+
+      -- LTC connector
+      hps_io_hps_io_gpio_inst_gpio40 => hps_ltc_gpio,
+      hps_io_hps_io_spim1_inst_clk   => hps_spim_clk,
+      hps_io_hps_io_spim1_inst_mosi  => hps_spim_mosi,
+      hps_io_hps_io_spim1_inst_miso  => hps_spim_miso,
+      hps_io_hps_io_spim1_inst_ss0   => hps_spim_ss,
+      hps_io_hps_io_i2c1_inst_sda    => hps_i2c1_sdat,
+      hps_io_hps_io_i2c1_inst_scl    => hps_i2c1_sclk,
+
+      -- I2C for accelerometer
+      hps_io_hps_io_gpio_inst_gpio61 => hps_gsensor_int,
+      hps_io_hps_io_i2c0_inst_sda    => hps_i2c0_sdat,
+      hps_io_hps_io_i2c0_inst_scl    => hps_i2c0_sclk,
+
+      -- HPS user I/O
+      hps_io_hps_io_gpio_inst_gpio53 => hps_led,
+      hps_io_hps_io_gpio_inst_gpio54 => hps_key,
+
+      -- DDR3
+      memory_mem_a       => hps_ddr3_addr,
+      memory_mem_ba      => hps_ddr3_ba,
+      memory_mem_ck      => hps_ddr3_ck_p,
+      memory_mem_ck_n    => hps_ddr3_ck_n,
+      memory_mem_cke     => hps_ddr3_cke,
+      memory_mem_cs_n    => hps_ddr3_cs_n,
+      memory_mem_ras_n   => hps_ddr3_ras_n,
+      memory_mem_cas_n   => hps_ddr3_cas_n,
+      memory_mem_we_n    => hps_ddr3_we_n,
+      memory_mem_reset_n => hps_ddr3_reset_n,
+      memory_mem_dq      => hps_ddr3_dq,
+      memory_mem_dqs     => hps_ddr3_dqs_p,
+      memory_mem_dqs_n   => hps_ddr3_dqs_n,
+      memory_mem_odt     => hps_ddr3_odt,
+      memory_mem_dm      => hps_ddr3_dm,
+      memory_oct_rzqin   => hps_ddr3_rzq,
+
+		--Custom mappings
+	  led_patterns_push_button        => ButtonMapping,        -- led_patterns.push_button
+	  led_patterns_led                => led,                --             .led
+	  led_patterns_switches           => sw,           --             .switches
+				
+      clk_clk       => fpga_clk1_50,
+      reset_reset_n => push_button_n(1)-- hook up to your reset signal; note that reset_reset_n is *active-low*
+    );
+	 
+--- End create soc_system----------------------------------------------------------------------------------------
 
   --Craete input coditioner to take the bouncy button input and turn it into a clean one pulse output
 
@@ -211,6 +375,8 @@ begin
       button_press => not push_button_n(0),
       button_pulse => ButtonMapping
     );
+	 
+	/* 
     LEDPatterns : component led_patterns
       port map(
         clk             => fpga_clk2_50,
@@ -222,5 +388,6 @@ begin
         led_reg         => "10101010",
         led             => led
       );
+*/
 
     end architecture de10nano_arch;
