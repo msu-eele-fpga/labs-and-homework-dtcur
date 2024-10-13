@@ -1,0 +1,5 @@
+{reg: [
+  {bits: 8, name: 'Base Period', attr: 'Fixed Point'},
+  {bits: 25}]}
+
+
