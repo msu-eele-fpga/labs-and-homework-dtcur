@@ -1,0 +1,5 @@
+
+{reg: [
+  {bits: 1, name: 'HPs LED Control', attr:'BOOL'},
+  {bits:31}]}
+

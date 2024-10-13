@@ -12,7 +12,7 @@ entity led_patterns is
     switches        : in std_ulogic_vector(3 downto 0);
     hps_led_control : in boolean;
     base_period     : in unsigned(7 downto 0);
-    led_reg         : in std_ulogic_vector (7 downto 0);
+    led_reg         : in std_logic_vector (7 downto 0);
     led             : out std_ulogic_vector(7 downto 0)
   );
 end entity;
@@ -34,7 +34,8 @@ architecture pattern of led_patterns is
   signal SwitchInputRegister, LEDMode : integer range 0 to 15;
   --Internal LED patterns registers to hold the always running patterns
   signal LEDPattern0Register, LEDPattern1Register, LEDPattern2Register, LEDPattern3Register, LEDPattern4Register : unsigned(6 downto 0);
-
+  --Internal LED 7 signal 
+  signal LEDBIT7 : std_ulogic := '0';
   --Clock divider component. Creates a 1 clock pulse boolean done when completed counting for the specified number of clock cycles.
   component clock_divider
     port (
@@ -108,18 +109,20 @@ begin
 
   ---------------------------------------------- Store swtiches value in a register for later use when determining state.
   SwitchInputRegister <= to_integer(unsigned(switches));
+  --store LEDbit7 
+  led(7) <= LEDBIT7;
   ----------------------------------------------Synchronous state memory for where to go. Changing this state is only allowed on a riseing edge of the clock--------------------------------------------------------------------------------
   STATE_MEMORY : process (clk, rst)
   begin
     --Check first for hardware or software control of the LEDs
     if (hps_led_control) then
       current_state <= idle;
-      else
+    else
       if (rst = '1') then
         current_state <= idle;
-        elsif (rising_edge(clk)) then
+      elsif (rising_edge(clk)) then
         current_state <= next_state;
-        else
+      else
         current_state <= current_state;
       end if;
     end if;
@@ -167,25 +170,25 @@ begin
     if (rising_edge(clk)) then
       if (rst = '1') then
         led(7 downto 0) <= "00000000";
-        else
+      else
         case(current_state) is
           -------------------- Idle state: default state on start up and after reset. Display pattern 0 as the default pattern
           when idle =>
           --Overwrite the hardware control of the LEDs if software is controling LEDs
           if (hps_led_control) then
-            led(7 downto 0) <= led_reg(7 downto 0);
-            else --Otherwise let the hardware control the LEDs
+            led(7 downto 0) <= to_stdulogicvector(led_reg(7 downto 0));
+          else --Otherwise let the hardware control the LEDs
             --- Start in the pattern 0 as the default pattern per lab
             led(6 downto 0) <= std_ulogic_vector(LEDPattern0Register);
             if (base_rate_done) then
-              led(7) <= not led(7);
+              LEDBIT7 <= not LEDBIT7;
             end if;
           end if;
 
           ------------------ NewPattern state: Display the value of the switches for mode selection for 1 second then switch states
           when NewPattern =>
           if (base_rate_done) then
-            led(7) <= not led(7);
+            LEDBIT7 <= not LEDBIT7;
           end if;
           led(6 downto 4) <= "000";
           led(3 downto 0) <= switches;
@@ -194,7 +197,7 @@ begin
           when ledPatternOut =>
 
           if (base_rate_done) then
-            led(7) <= not led(7);
+            LEDBIT7 <= not LEDBIT7;
           end if;
           --LED mode switch case
           case(LEDMode) is
@@ -208,7 +211,7 @@ begin
           end case; -- End LED mode switch case
         end case; -- End current state switch case
       end if;   -- End Reset condition if statement
-      else
+    else
     end if; -- End clk condition if statement
   end process;
 
