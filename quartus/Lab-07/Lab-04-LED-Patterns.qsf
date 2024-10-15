@@ -866,8 +866,6 @@ set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL
 set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to u0|hps_0|hps_io|border|hps_sdram_inst|pll0|fbout
 set_global_assignment -name VHDL_FILE ../de10nano_top.vhd -hdl_version VHDL_2008
 set_global_assignment -name QIP_FILE ../soc_system/synthesis/soc_system.qip
-set_global_assignment -name VHDL_FILE "../../sim/LED-pattern-StateMachine/ledPattern.vhd"
-set_global_assignment -name VHDL_FILE ../../hdl/led_patterns_avalon.vhd
 set_global_assignment -name VHDL_FILE "../../sim/synchronizer/synchronizer-sim.vhd" -hdl_version VHDL_2008
 set_global_assignment -name SDC_FILE ../de10nano.sdc
 set_global_assignment -name VHDL_FILE "../../sim/LED-pattern-StateMachine/clockDivider.vhd" -hdl_version VHDL_2008
@@ -875,5 +873,5 @@ set_global_assignment -name VHDL_FILE "../../sim/timed-counter/timed_counter.vhd
 set_global_assignment -name VHDL_FILE "../../sim/async-conditioner/one_pulse.vhd" -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE "../../sim/async-conditioner/debouncer.vhd" -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE "../../sim/async-conditioner/async_conditioner.vhd" -hdl_version VHDL_2008
-set_global_assignment -name SLD_FILE "db/Lab05-SignalTap_auto_stripped.stp"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SLD_FILE "db/Lab05-SignalTap_auto_stripped.stp"

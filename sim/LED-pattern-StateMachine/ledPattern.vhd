@@ -169,14 +169,16 @@ begin
   begin
     if (rising_edge(clk)) then
       if (rst = '1') then
-        led(7 downto 0) <= "00000000";
+        led(6 downto 0) <= "0000000";
+		  LEDBIT7 <= '0';
       else
         case(current_state) is
           -------------------- Idle state: default state on start up and after reset. Display pattern 0 as the default pattern
           when idle =>
           --Overwrite the hardware control of the LEDs if software is controling LEDs
           if (hps_led_control) then
-            led(7 downto 0) <= to_stdulogicvector(led_reg(7 downto 0));
+            led(6 downto 0) <= to_stdulogicvector(led_reg(6 downto 0));
+				LEDBIT7 <= led_reg(7);
           else --Otherwise let the hardware control the LEDs
             --- Start in the pattern 0 as the default pattern per lab
             led(6 downto 0) <= std_ulogic_vector(LEDPattern0Register);
