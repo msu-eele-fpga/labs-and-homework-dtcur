@@ -47,6 +47,9 @@ architecture led_paterns_avalon_arch of led_patterns_avalon is
 
   --led_reg_register
   signal led_reg : std_logic_vector(31 downto 0);
+  
+  --Internal registers for processing avalon input
+  signal HPS_Control_Mode : boolean := false;
 
 begin
   LEDPatterns : component led_patterns
@@ -55,18 +58,30 @@ begin
       rst             => rst,
       push_button     => push_button,
       switches        => switches,
-      hps_led_control => false,
+      hps_led_control => HPS_Control_Mode,
       base_period     => unsigned(base_period_register(7 downto 0)),
       led_reg         => led_reg(7 downto 0),
       led             => led
     );
+	 
+	 UpdatedRegisters : process (clk, hps_led_control) 
+	 begin 
+	 if(rising_edge(clk)) then
+		if(hps_led_control(0) = '1') then 
+			HPS_Control_Mode <= true; 
+		else 
+			HPS_Control_Mode <= false;
+		end if;
+	end if;
+	end process;
+	
     avalon_regsiter_read : process (clk)
     begin
       if (rising_edge(clk) and avs_read = '1') then
         case(avs_address) is
-          when "00" => avs_readdata   <= led_reg;
+          when "00" => avs_readdata   <= hps_led_control;
           when "01" => avs_readdata   <= base_period_register;
-          when "11" => avs_readdata   <= hps_led_control;
+          when "10" => avs_readdata   <= led_reg;
           when others => avs_readdata <= (others => '0');
         end case;
       end if;
@@ -77,14 +92,14 @@ begin
       if (rising_edge(clk) and avs_write = '1') then
         if rst = '1' then
           led_reg              <= "00000000000000000000000000000000";
-          base_period_register <= "00000000000000000000000000010000";
+          base_period_register <= "00000000000000000000000000100000";
           hps_led_control      <= "00000000000000000000000000000001";
 
         elsif rising_edge(clk) and avs_write = '1' then
           case(avs_address) is
-            when "00"   => led_reg              <= avs_writedata(31 downto 0);
-            when "01"   => base_period_register <= "00000000000000000000000000000000";
-            when "11"   => hps_led_control      <= "00000000000000000000000000000000";
+            when "00"   => hps_led_control              <= avs_writedata(31 downto 0);
+            when "01"   => base_period_register <= avs_writedata(31 downto 0);
+            when "10"   => led_reg      <= avs_writedata(31 downto 0);
             when others => null;
           end case;
         end if;
