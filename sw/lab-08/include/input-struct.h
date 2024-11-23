@@ -8,6 +8,7 @@
     /*   NAME       ARGUMENT           FLAG  SHORTNAME */
         {"help",        no_argument,        NULL, 'h'},
         {"verbose",     no_argument,        NULL, 'v'},
+        {"veryverbose", no_argument,        NULL, 'z'},
         {"pattern",     required_argument,  NULL, 'p'},
         {"verbose",     no_argument,        NULL, 'p'},
         {"file",        required_argument,  NULL, 'f'},
