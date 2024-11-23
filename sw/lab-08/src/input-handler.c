@@ -27,8 +27,13 @@ int main (int argc, char **argv) {
         int digit_optind = 0;
         int fopt = 0, vopt = 0, popt = 0;
         char *copt = 0, *dopt = 0;
-
+        bool verbose = false;
         int option_index = 0;
+
+        //create pointer to the first pattern in the linked list
+        //Used if fopt or popt
+        struct led_pattern *HEAD = NULL;
+
         //Check for input arguments 
         while ((c = getopt_long(argc, argv, "hvpf:012", long_options, &option_index)) != -1) 
                 {
@@ -58,7 +63,7 @@ int main (int argc, char **argv) {
                         //Put system into verbose mode
                         case 'v':
                                 printf ("option: Verbose \n");
-                                vopt = 1;
+                                verbose = true;
                                 break;
                         //User has inputted specific patterns to display. 
                         //Set popt flag and handle pattern & duration input later
@@ -95,23 +100,30 @@ int main (int argc, char **argv) {
                 //Input arguments
                 else if(popt)
                 {
+                        //FOR TESTING! REMOVE!
+                        verbose = true;
+
                         while(optind < argc)
                         {
-                                printf("Patterns provided: %s ", argv[optind++]);
-                                printf("Duration provided: %s\n\r", argv[optind++]);
+                                HEAD = pattern_formatter(argv[optind++], argv[optind++], HEAD, verbose);
                         }
                 }
-                printf("Creating test struct\n\r");
-                char pattern[] = "FF";
-                char duration[] = "1500";
-                led_pattern* testPattern = pattern_formatter(pattern, duration);
-                printf("Struct values:\n\r\tpattern: 0x%x\n\r\tduration:0x%x\n\r", testPattern->pattern, testPattern->duration);
+                printf("Starting pattern display\n\r");
+               
                 while(1){
-                        //Call function to handle memory interface
+                        //Display provided patterns in linked list
+                        struct led_pattern *local_head = HEAD;
+                        while(local_head != NULL){
+                                display_pattern(*local_head, true);
+                                //Sleep for duration equal to the pattern in milliseconds
+                                usleep(local_head->duration * 1000);
+                                local_head = local_head->next;
+                                
+                        }
 
                         //For testing purposes display a static pattern
-                        display_pattern(*testPattern, true);
-                        usleep(testPattern->duration * 1000);
+                        //display_pattern(*testPattern, true);
+                        //usleep(testPattern->duration * 1000);
                 }
         exit (0);
 }
