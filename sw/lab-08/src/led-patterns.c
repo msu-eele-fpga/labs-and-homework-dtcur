@@ -1,12 +1,16 @@
 #include "led-patterns.h" // Include header file because I forget to do this all the time
 
 //Constructor 
-struct led_pattern* pattern_formatter(char *pattern_input, char *duration_input)
+struct led_pattern* pattern_formatter(char *pattern_input, char *duration_input, led_pattern *head, bool verbose)
 {
         //Take string of pattern and time in as an input and convert to an unsigned long int
-        printf("now mapping struct \n\r");
-        printf("Pattern: %s Duration %s\n\r", pattern_input, duration_input);
-        fflush(stdout);
+        if(verbose){
+                printf("now mapping struct \n\r");
+                printf("Pattern: %s Duration %s\n\r", pattern_input, duration_input);
+                fflush(stdout);
+        }
+
+  
         //Construct the struct
         struct led_pattern *pattern = (struct led_pattern*)malloc(sizeof(led_pattern));
         //Check for failed pointer creation
@@ -14,9 +18,13 @@ struct led_pattern* pattern_formatter(char *pattern_input, char *duration_input)
         {
                 return(NULL);
         }
-        //Set values
+
+        //Populate next struct with provided data
+        pattern->next = head;
         pattern->pattern = strtoul(pattern_input, NULL, 16);
-        pattern->duration=strtoul(duration_input, NULL, 10);
+        pattern->duration = strtoul(duration_input, NULL, 10);
+
+        //return pointer to the new pattern
         return(pattern);
 }
 
@@ -50,12 +58,22 @@ int display_pattern(led_pattern pattern, bool verbose)
 
         //1. Set into SW control mode
 
+        if(verbose)
+        {
+                printf("-------------------------------------------------------------------\n\r");
+                printf("Values being written:\n\r");
+                printf("\tControl: 0x%04x (bool)\n\r", ENABLE_LED_CONTROL);
+                printf("\tPattern: 0x%04x \n\r", pattern.pattern);
+                printf("\tDuration: %lu ms\n\r", pattern.duration);
+        }
+        
         volatile uint32_t *enable_register = calculate_Memory_Offset(ENABLE_REGISTER_ADDR, verbose);
         *enable_register = ENABLE_LED_CONTROL;
 
         //2. Set pattern
         volatile uint32_t *pattern_register = calculate_Memory_Offset(LED_REGISTER_ADDR, verbose);
         *pattern_register = pattern.pattern;
+        
 
         //3. set duration
         volatile uint32_t *duration_register = calculate_Memory_Offset(DURATION_REGISTER_ADDR, verbose);
