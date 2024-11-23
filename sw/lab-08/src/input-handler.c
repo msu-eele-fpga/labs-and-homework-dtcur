@@ -10,6 +10,7 @@
 #include "input-struct.h"
 #include "help-text.h"
 #include "led-patterns.h"
+#include "memory-addresser.h" //Needed for ctrl+c handler
 
 void sigint_Handler(int);
 
@@ -110,7 +111,7 @@ int main (int argc, char **argv) {
 
                         //For testing purposes display a static pattern
                         display_pattern(*testPattern, true);
-                        sleep(5);
+                        usleep(testPattern->duration * 1000);
                 }
         exit (0);
 }
@@ -124,6 +125,8 @@ void sigint_Handler(int sig)
         signal(SIGINT, sigint_Handler);
         fflush(stdout);
         printf("\n\n\rSystem exiting... Reverting control to FPGA fabric... \n\r");
+        volatile uint32_t *enable_register = calculate_Memory_Offset(ENABLE_REGISTER_ADDR, false);
+        *enable_register = ~ENABLE_LED_CONTROL;
         fflush(stdout);
         exit(0);
 }
