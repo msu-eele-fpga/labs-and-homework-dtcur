@@ -19,15 +19,22 @@
 
 
 //Struct to hold the LED patterns
+//Unknown input size of pattern 
+//So creating a linked list of patterns
+//to handle the variable number of patterns and durations
 typedef struct led_pattern
 {
         unsigned long pattern;
         unsigned long duration;
+        //next element in list
+        struct led_pattern *next;
+
 } led_pattern;
 
 //Constructor 
-inline struct led_pattern* pattern_formatter(char *pattern_input, char *duration_input);
+struct led_pattern* pattern_formatter(char *pattern_input, char *duration_input, led_pattern *head, bool verbose);
 //Function to display an led_pattern on the FPGA leds
 int display_pattern(led_pattern pattern, bool verbose);
 
+//List creator
 #endif
