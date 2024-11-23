@@ -5,17 +5,18 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+//Packages below may be redundant. Needs checked but this 
+//code should no longer do direct memory access
+//that has been moved to memory-addresser
 #include <sys/mman.h>   //For mmap
 #include <fcntl.h>      //For file open flags
 #include <unistd.h>     //For page size
 
+//Bring in the memory addresser code
+//This contains the functions for accessing the memory
+//and constants for interfacing with the memory
+#include "memory-addresser.h"
 
-//Some useful constants
-
-#define BASE_ADDRESS 0xFF200000u
-#define ENABLE_ADDRESS BASE_ADDRESS + 0x4u
-#define LED_OFFSET BASE_ADDRESS + 0x8u
-#define DURATION_OFFSET BASE_ADDRESS + 0x12u
 
 //Struct to hold the LED patterns
 typedef struct led_pattern
