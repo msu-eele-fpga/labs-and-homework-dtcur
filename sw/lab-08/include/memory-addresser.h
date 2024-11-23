@@ -26,7 +26,7 @@
 
 //Functions
 //Calculate the pointer to the virtual memory location from the physical address provided
-uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose);
+uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose, bool very_verbose);
 
 
 #endif

@@ -27,7 +27,7 @@ int main (int argc, char **argv) {
         int digit_optind = 0;
         int fopt = 0, vopt = 0, popt = 0;
         char *copt = 0, *dopt = 0;
-        bool verbose = false;
+        bool verbose = false, very_verbose = false;
         int option_index = 0;
 
         //create pointer to the first pattern in the linked list
@@ -62,7 +62,11 @@ int main (int argc, char **argv) {
                                 break;
                         //Put system into verbose mode
                         case 'v':
-                                printf ("option: Verbose \n");
+                                verbose = true;
+                                break;
+                        case 'z':
+                                //This is extreme verbosity. This will print EVERYTHING
+                                very_verbose = true;
                                 verbose = true;
                                 break;
                         //User has inputted specific patterns to display. 
@@ -100,26 +104,27 @@ int main (int argc, char **argv) {
                 //Input arguments
                 else if(popt)
                 {
-                        //FOR TESTING! REMOVE!
-                        verbose = true;
-
                         while(optind < argc)
                         {
-                                HEAD = pattern_formatter(argv[optind++], argv[optind++], HEAD, verbose);
+                                HEAD = pattern_formatter(argv[optind++], argv[optind++], HEAD, very_verbose);
                         }
-                }
-                printf("Starting pattern display\n\r");
-               
-                while(1){
-                        //Display provided patterns in linked list
-                        struct led_pattern *local_head = HEAD;
-                        while(local_head != NULL){
-                                display_pattern(*local_head, true);
-                                //Sleep for duration equal to the pattern in milliseconds
-                                usleep(local_head->duration * 1000);
-                                local_head = local_head->next;
+                        if(very_verbose)
+                        {
+                                printf("Starting pattern display\n\r");
+                        }       
+                        while(1){
+                                //Display provided patterns in linked list
+                                struct led_pattern *local_head = HEAD;
+                                while(local_head != NULL){
+                                        display_pattern(*local_head, verbose, very_verbose);
+                                        //Sleep for duration equal to the pattern in milliseconds
+                                        usleep(local_head->duration * 1000);
+                                        local_head = local_head->next;
                                 
                         }
+                }
+               
+
 
                         //For testing purposes display a static pattern
                         //display_pattern(*testPattern, true);
@@ -137,7 +142,7 @@ void sigint_Handler(int sig)
         signal(SIGINT, sigint_Handler);
         fflush(stdout);
         printf("\n\n\rSystem exiting... Reverting control to FPGA fabric... \n\r");
-        volatile uint32_t *enable_register = calculate_Memory_Offset(ENABLE_REGISTER_ADDR, false);
+        volatile uint32_t *enable_register = calculate_Memory_Offset(ENABLE_REGISTER_ADDR, false, false);
         *enable_register = ~ENABLE_LED_CONTROL;
         fflush(stdout);
         exit(0);

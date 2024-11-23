@@ -1,9 +1,9 @@
 #include "memory-addresser.h"
-uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose){
+uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose, bool very_verbose){
         
          //Calculate memory size of the system 
         const size_t PAGE_SIZE = sysconf(_SC_PAGE_SIZE);
-        if(verbose)
+        if(very_verbose)
         {
                 printf("Memory size calculated to %d\n\r", PAGE_SIZE);
         }
@@ -24,7 +24,7 @@ uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose){
         }
 
         uint32_t page_aligned_addr = physical_Address & ~(PAGE_SIZE -1);
-        if(verbose)
+        if(very_verbose)
         {
                 printf("memory addresses: \n\r");
                 printf("-------------------------------------------------------------------\n\r");
@@ -48,7 +48,7 @@ uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose){
                         fprintf(stderr, "Failed to map memory \n\r");
                         exit(1);
         }
-        if(verbose)
+        if(very_verbose)
         {
                         printf("\tpage_virtual_addr = %p\n\r", page_virtual_addr);
         }
@@ -59,13 +59,13 @@ uint32_t* calculate_Memory_Offset(uint32_t physical_Address, bool verbose){
         * in reference to the page boundary
         */
         uint32_t offset_in_page = physical_Address & (PAGE_SIZE - 1);
-        if(verbose)
+        if(very_verbose)
         {
                 printf("\tOffset in page = 0x%x\n\r", offset_in_page);
         }
 
         volatile uint32_t *target_virtual_addr = page_virtual_addr + offset_in_page/sizeof(uint32_t*);
-        if(verbose)
+        if(very_verbose)
         {
                 printf("\ttarget_virtual_addr = %p\n\r", target_virtual_addr);
                 printf("-------------------------------------------------------------------\n\r");

@@ -34,7 +34,7 @@ typedef struct led_pattern
 //Constructor 
 struct led_pattern* pattern_formatter(char *pattern_input, char *duration_input, led_pattern *head, bool verbose);
 //Function to display an led_pattern on the FPGA leds
-int display_pattern(led_pattern pattern, bool verbose);
+int display_pattern(led_pattern pattern, bool verbose, bool very_verbose);
 
 //List creator
 #endif
