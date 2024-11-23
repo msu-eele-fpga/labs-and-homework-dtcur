@@ -16,8 +16,9 @@
 //Memory offset constants for the LED-Patterns specifically
 #define BASE_ADDRESS 0xFF200000u
 #define ENABLE_REGISTER_ADDR BASE_ADDRESS + 0x0u
-#define LED_REGISTER_ADDR BASE_ADDRESS + 0x4u
-#define DURATION_REGISTER_ADDR BASE_ADDRESS + 0x8u
+#define DURATION_REGISTER_ADDR BASE_ADDRESS + 0x4u
+#define LED_REGISTER_ADDR BASE_ADDRESS + 0x8u
+
 
 //Bit masks for enabling control
 #define ENABLE_LED_CONTROL 0x00000001
