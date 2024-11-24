@@ -11,6 +11,7 @@ void print_help_text(void)
         printf("\t -h, --help                    Display this text and exit\n\r");
         printf("\t -v, --verbose                 Print what LED patterns is as a binary string,\n\r");
         printf("\t                               and how long each pattern will be displayed for\n\r");
+        printf("\t     --veryverbos              Print all debugging information. Also sets verbose.\n\r");
         printf("\t -p, --pattern PATTERN         Display the provided pattern for the provided\n\r");
         printf("\t                               duration, loops for as long as the code is running\n\r");
         printf("\t -f, --file FILE.txt           Display the patterns in the provided file for the \n\r");
