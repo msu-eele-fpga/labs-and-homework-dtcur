@@ -3,7 +3,8 @@
 void print_help_text(void)
 {
         //Big print for the usage text
-        printf("usage: led-patterns [options] [patterns]\n\r");
+        printf("usage: led-patterns [options] [patterns] [duration]\n\r");
+        printf("File and pattern inputs are mutally exclusive.\n\r");
         printf("Display provided patterns on the LED bank on the FGPA\n\r");
         printf("\n\r");
         printf("Mandatory arguments to long options are mandatory for short options too.\n\r");

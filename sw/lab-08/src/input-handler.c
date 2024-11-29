@@ -92,6 +92,13 @@ int main (int argc, char **argv) {
                                 break;
                         }
                 }
+
+                //Check for fopt and popt to both be set
+                if(fopt && popt){
+                        fprintf(stderr, "Invalid inputs. File and pattern cannot both be supplied.\n\r");
+                        print_help_text();
+                        exit(1);
+                }
                 //Check for file flag.
                 //If file and pattern flag are provided only respond to file flag
                 //Ignore patterns from command line
