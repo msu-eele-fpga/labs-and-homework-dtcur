@@ -11,6 +11,8 @@
 #include "help-text.h"
 #include "led-patterns.h"
 #include "memory-addresser.h" //Needed for ctrl+c handler
+#include "file-reader.h"        
+
 
 void sigint_Handler(int);
 
@@ -95,10 +97,51 @@ int main (int argc, char **argv) {
                 //Ignore patterns from command line
                 if(fopt)
                 {
-                        while(optind < argc)
+                        if(very_verbose)
                         {
-                                printf("File provided: %s ", argv[optind++]);
+                                printf("File provided: %s ", argv[argc-1]);
                         }
+                        FILE *pattern_file;
+                        pattern_file = fopen(argv[argc-1], "r");
+                        
+                        //Check for success opening file
+                        if(pattern_file == NULL)
+                        {
+                                fprintf(stderr, "Unable to open file.\n\r");
+                                exit(1);
+                        }
+                        HEAD = pattern_reader(pattern_file, verbose, very_verbose);
+                        
+                        if(very_verbose)
+                        {
+                                printf("Starting pattern display\n\r");
+                        }   
+                        //Pattern display loop
+                        //Iterate through the linked list of patterns.
+
+                        //Display provided patterns in linked list
+                        struct led_pattern *local_head = HEAD;
+                        while(local_head != NULL){
+                                display_pattern(*local_head, verbose, very_verbose);
+                                //Sleep for duration equal to the pattern in milliseconds
+                                usleep(local_head->duration * 1000);
+                                local_head = local_head->next;
+                        }
+                        //only display through the LED-Pattern sequence once for a file
+                        if(verbose)
+                        {
+                                printf("\n\r-------------------------------------------------------------------\n\r");
+                                printf("Completed displaying all patterns in file: %s\n\r", argv[argc-1]);
+                                printf("Program will now exit & return control to FPGA fabric.\n\r");
+                                printf("-------------------------------------------------------------------\n\r");
+                        }
+                        //Return control to FPGA fabric
+                        volatile uint32_t *enable_register = calculate_Memory_Offset(ENABLE_REGISTER_ADDR, false, false);
+                        *enable_register = ~ENABLE_LED_CONTROL;
+                        fflush(stdout);
+                        //Exit successfully
+                        exit(0);
+                
                 }
                 //If no file flag display the patterns provided in the 
                 //Input arguments
@@ -111,8 +154,11 @@ int main (int argc, char **argv) {
                         if(very_verbose)
                         {
                                 printf("Starting pattern display\n\r");
-                        }       
-                        while(1){
+                        }      
+                        //pattern display loop.
+                        //Iterate through the linked list of patterns.
+                        while(1)
+                        {
                                 //Display provided patterns in linked list
                                 struct led_pattern *local_head = HEAD;
                                 while(local_head != NULL){
@@ -120,17 +166,12 @@ int main (int argc, char **argv) {
                                         //Sleep for duration equal to the pattern in milliseconds
                                         usleep(local_head->duration * 1000);
                                         local_head = local_head->next;
-                                
+                                }
                         }
                 }
-               
-
-
-                        //For testing purposes display a static pattern
-                        //display_pattern(*testPattern, true);
-                        //usleep(testPattern->duration * 1000);
-                }
-        exit (0);
+        //Should never be reached.
+        fprintf(stderr, "Reached un-reachable state. Exiting.\n\r");
+        exit (1);
 }
 
 
