@@ -3,7 +3,9 @@ OBJ_DIR := obj
 BIN_DIR := bin
 HEADER_DIR := include 
 
+#Directory from a virtual machine
 EXE := /srv/nfs/de10nano/ubuntu-rootfs/home/soc/labs/lab-08/led-patterns
+#Alternative build location
 #EXE := bin/led-patterns
 SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
