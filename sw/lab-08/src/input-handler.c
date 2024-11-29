@@ -147,10 +147,24 @@ int main (int argc, char **argv) {
                 //Input arguments
                 else if(popt)
                 {
-                        while(optind < argc)
+                        //Means that the program was called with --pattern
+                        //This shifts optind by one for some reason
+                        if(optind == 4)
                         {
-                                HEAD = pattern_formatter(argv[optind++], argv[optind++], HEAD, very_verbose);
+                                while(optind < argc + 1)
+                                {
+                                        HEAD = pattern_formatter(argv[(optind++)-1], argv[(optind++)-1], HEAD, very_verbose);
+                                }
                         }
+                        else
+                        {
+                                while(optind < argc)
+                                {
+                                        HEAD = pattern_formatter(argv[optind++], argv[optind++], HEAD, very_verbose);
+                                }
+
+                        }
+                        
                         if(very_verbose)
                         {
                                 printf("Starting pattern display\n\r");

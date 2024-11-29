@@ -10,7 +10,7 @@
         {"verbose",     no_argument,        NULL, 'v'},
         {"veryverbose", no_argument,        NULL, 'z'},
         {"pattern",     required_argument,  NULL, 'p'},
-        {"verbose",     no_argument,        NULL, 'p'},
+        {"verbose",     no_argument,        NULL, 'v'},
         {"file",        required_argument,  NULL, 'f'},
         {NULL,          0,                  NULL,   0}
     };
