@@ -160,6 +160,13 @@ int main (int argc, char **argv) {
                         {
                                 while(optind < argc + 1)
                                 {
+                                        if((optind + 2) > (argc + 1))
+                                        {
+                                                fprintf(stderr, "Each pattern must have a duration and vice verse. Exiting.");
+                                                printf("\n\n\r");
+                                                print_help_text();
+                                                exit(1);
+                                        }
                                         HEAD = pattern_formatter(argv[(optind++)-1], argv[(optind++)-1], HEAD, very_verbose);
                                 }
                         }
@@ -167,6 +174,13 @@ int main (int argc, char **argv) {
                         {
                                 while(optind < argc)
                                 {
+                                        if((optind + 2) > (argc - 1))
+                                                {
+                                                        fprintf(stderr, "Each pattern must have a duration and vice verse. Exiting.");
+                                                        printf("\n\n\r");
+                                                        print_help_text();
+                                                        exit(1);
+                                                }
                                         HEAD = pattern_formatter(argv[optind++], argv[optind++], HEAD, very_verbose);
                                 }
 
