@@ -116,3 +116,6 @@ sw/lab-08/.vscode/c_cpp_properties.json
 sw/lab-08/.vscode/launch.json
 sw/lab-08/.vscode/settings.json
 sw/lab-08/testPatterns.txt
+docs/.vscode/c_cpp_properties.json
+docs/.vscode/launch.json
+docs/.vscode/settings.json
