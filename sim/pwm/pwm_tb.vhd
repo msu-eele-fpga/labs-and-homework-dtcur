@@ -22,8 +22,8 @@ architecture testbench of pwm_tb is
     port (
       clk        : in std_logic;
       rst        : in std_logic;
-      period     : in unsigned(15 downto 0);
-      duty_cycle : in unsigned(15 downto 0);
+      period     : in unsigned(53 downto 0);
+      duty_cycle : in unsigned(34 downto 0);
       output     : out std_logic
     );
   end component pwm_controller;
@@ -33,9 +33,9 @@ architecture testbench of pwm_tb is
   signal clk_tb       : std_logic := '0';
   constant CLK_PERIOD : time      := 20 ns;
   --Interface signals
-  signal duty_cycle_tb : unsigned(15 downto 0) := "0000010001010110";
-  signal period_tb     : unsigned(15 downto 0) := "0000101111010000";
-  signal pwm           : std_logic;
+  signal period_tb     : unsigned(53 downto 0) := (28 downto 5 => "111100000011000100100111", others => '0');
+  signal duty_cycle_tb : unsigned(34 downto 0) := (23 downto 5 => "1101100110011001101", others => '0');
+  signal pwm_tb        : std_logic;
 begin
   dut_pwm_controller : component pwm_controller
     generic map(
@@ -46,7 +46,7 @@ begin
       rst        => rst_tb,
       period     => period_tb,
       duty_cycle => duty_cycle_tb,
-      output     => pwm
+      output     => pwm_tb
     );
     --Create clock
     clk_tb <= not clk_tb after CLK_PERIOD/2;
