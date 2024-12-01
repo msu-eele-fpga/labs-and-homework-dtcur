@@ -17,8 +17,8 @@ entity pwm_controller is
     rst : in std_logic;
     --PWM repetition period in milliseconds
     --datatype (W.F)
-    period     : in unsigned;
-    duty_cycle : in unsigned;
+    period     : in unsigned(15 downto 0);
+    duty_cycle : in unsigned(15 downto 0);
     output     : out std_logic
   );
 end entity pwm_controller;
