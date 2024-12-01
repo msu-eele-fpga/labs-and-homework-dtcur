@@ -1,0 +1,14 @@
+#Some useful env vars for cross compiling the linux kernel
+#----------------------------------------------------------
+# Author: Drew Currie
+# Company: Montana State University
+# Created: 11/30/2024
+# Revision 1.0
+# License: GPL
+#---------------------------------------------------------
+
+#Usage: source .crosscompile_variables
+
+#Setups up the enviroment variables for use with the arm SoC cross compiler
+export CROSS_COMPILE=/usr/bin/arm-linux-gueabihf-
+export ARCH=arm
