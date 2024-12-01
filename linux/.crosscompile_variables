@@ -10,7 +10,7 @@
 #Usage: source .crosscompile_variables
 
 #Setups up the enviroment variables for use with the arm SoC cross compiler
-export CROSS_COMPILE=/usr/bin/arm-linux-gueabihf-
+export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
 export ARCH=arm
 
 #Add multi-threading to speed things up
