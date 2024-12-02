@@ -97,12 +97,17 @@ component pwm_controller is
   end component pwm_controller;
   
   --Hard coded period and duty cycle registers
-  signal HARD_CODED_PERIOD : unsigned(29 downto 0) := (23 downto 22 => "01", others => '0');
-  signal HARD_CODED_DUTY_CYCLE : unsigned(10 downto 0) := (10 downto 9 => "01", others => '0');
-  
+  signal HARD_CODED_PERIOD : unsigned(29 downto 0);
+  signal HARD_CODED_DUTY_CYCLE : unsigned(10 downto 0);
+  --Buffer for visualizing the PWM on the LEDs
+  signal pwm_output : std_logic;
 begin
+--Assign hard coded values
+HARD_CODED_PERIOD <= "000000010000000000000000000000";
+HARD_CODED_DUTY_CYCLE <= "01000000000";
 
---Craete PWM controller component
+
+--Create PWM controller component
 pwm_generator : component pwm_controller
     generic map(
       CLK_PERIOD => 20 ns
@@ -112,11 +117,14 @@ pwm_generator : component pwm_controller
       rst        => not push_button_n(1),
       period     => HARD_CODED_PERIOD,
       duty_cycle => HARD_CODED_DUTY_CYCLE,
-      output     => gpio_0(0)
+      output     => pwm_output
     );
 
 
   -- Add VDHL code to connect the four switches (SW) to four LEDs
 	led(3 downto 0) <= sw;
-	led(7 downto 4) <= "0000";
+	led(6 downto 4) <= "000";
+	gpio_0(3 downto 0) <= sw;
+	gpio_0(4) <= pwm_output;
+	led(7) <= pwm_output;
 end architecture de10nano_arch;
