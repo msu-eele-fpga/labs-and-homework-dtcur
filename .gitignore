@@ -119,3 +119,9 @@ sw/lab-08/testPatterns.txt
 docs/.vscode/c_cpp_properties.json
 docs/.vscode/launch.json
 docs/.vscode/settings.json
+quartus/HW-9/pwmgenerator.qpf
+quartus/HW-9/pwmgenerator.qsf
+quartus/HW-9/soc_system.sopcinfo
+quartus/soc_system.sopcinfo
+quartus/soc_system.sopcinfo
+quartus/soc_system.sopcinfo
