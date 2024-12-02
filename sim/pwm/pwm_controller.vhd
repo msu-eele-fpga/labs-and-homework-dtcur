@@ -9,7 +9,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 entity pwm_controller is
   generic (
-    CLK_PERIOD : time := 20 ns
+    CLK_PERIOD   : time    := 20 ns;
+    W_PERIOD     : integer := 30;
+    W_DUTY_CYCLE : integer := 11
   );
 
   port (
@@ -17,37 +19,75 @@ entity pwm_controller is
     rst : in std_logic;
     --PWM repetition period in milliseconds
     --datatype (W.F)
-    period     : in unsigned(53 downto 0);
-    duty_cycle : in unsigned(34 downto 0);
-    output     : out std_logic
+    period     : in unsigned (W_PERIOD - 1 downto 0)    := (others => '0');
+    duty_cycle : in unsigned(W_DUTY_CYCLE - 1 downto 0) := (others => '0');
+    output     : out std_logic                          := '0'
   );
 end entity pwm_controller;
 
 architecture pwm_arch of pwm_controller is
-  --Signals to hold the period and duty cycles 
-  --Split between whole number and fractional bits
-  signal period_whole      : unsigned(29 downto 0);
-  signal period_fractional : unsigned(23 downto 0);
+  --Bring in timed counter as the delay system for the period and duty-cycle 
+  component clock_divider
+    generic (
+      C_PERIOD : integer
+    );
+    port (
+      count : in unsigned(C_PERIOD - 1 downto 0);
+      clk   : in std_ulogic;
+      rst   : in std_logic;
+      done  : out std_logic
+    );
+  end component;
 
-  signal duty_cycle_whole      : unsigned(10 downto 0);
-  signal duty_cycle_fractional : unsigned(23 downto 0);
-  --Need some constants to convert from mS of input to number of clock cycles
-  --Due to the DE10Nano clock being 20ns, the max precision is 21 fractional bits. 
-  --This means truncation is required and resolution is limited. 
-
+  --Unit conversion constant
+  constant CLOCK_PULSE_PER_MS           : integer := 1 ms / CLK_PERIOD;
+  constant LENGTH_OF_CLOCK_PULSE_PER_MS : integer := 15;
+  --Signals to interface with counter
+  signal period_done_counter     : std_logic;
+  signal duty_cycle_done_counter : std_logic;
+  signal duty_cycle_control      : std_logic := '1';
+  --Calculate the length of the period in clock pulses
+  signal period_clock_pulses     : unsigned (W_PERIOD + LENGTH_OF_CLOCK_PULSE_PER_MS downto 0);
+  signal duty_cycle_clock_pulses : unsigned (W_PERIOD + W_DUTY_CYCLE + LENGTH_OF_CLOCK_PULSE_PER_MS downto 0);
 begin
   --Assign values to internal registers
-  period_whole      <= period(53 downto 24);
-  period_fractional <= period(23 downto 0);
+  period_clock_pulses     <= period * to_unsigned(CLOCK_PULSE_PER_MS, 16);
+  duty_cycle_clock_pulses <= period * duty_cycle * to_unsigned(CLOCK_PULSE_PER_MS, 16);
+  period_clock : clock_divider
+  generic map(
+    -- Set period width for the clock divider equal to the size of the 
+    -- input calculation minus the fractional bits. In this case 24 fractional bits
+    C_PERIOD => W_PERIOD + LENGTH_OF_CLOCK_PULSE_PER_MS - 24
+  )
+  port map(
+    count => period_clock_pulses(W_PERIOD + LENGTH_OF_CLOCK_PULSE_PER_MS - 1 downto 24),
+    clk   => clk,
+    rst   => rst,
+    done  => period_done_counter
+  );
 
-  duty_cycle_whole      <= duty_cycle(34 downto 24);
-  duty_cycle_fractional <= duty_cycle(23 downto 0);
-  proc_pwm_test : process (clk, rst)
+  duty_clock : clock_divider
+  generic map(
+    -- 26 bits minus 4 for 22 bits length of the max duty cycle. 
+    -- Becomes two times the input length
+    C_PERIOD => W_DUTY_CYCLE + LENGTH_OF_CLOCK_PULSE_PER_MS - 4
+  )
+  port map(
+    count => duty_cycle_clock_pulses(W_DUTY_CYCLE + W_PERIOD + LENGTH_OF_CLOCK_PULSE_PER_MS - 1 downto 34),
+    clk   => clk,
+    rst   => duty_cycle_control,
+    done  => duty_cycle_done_counter
+  );
+
+  proc_pwm_output : process (clk, rst, period_done_counter, duty_cycle_done_counter)
   begin
-    if rising_edge(clk) then
-      output <= '1';
-    else
-      output <= '0';
+    if period_done_counter = '1' then
+      output             <= '1';
+      duty_cycle_control <= '0';
+    end if;
+    if duty_cycle_done_counter = '1' then
+      output             <= '0';
+      duty_cycle_control <= '1';
     end if;
   end process;
 end architecture pwm_arch;
