@@ -2,7 +2,7 @@ ifneq ($(KERNELRELEASE),)
 
 # kbuild part of makefile
 
-obj-m := led_patterns.o
+obj-m := led-patterns.o
 
 else
 
