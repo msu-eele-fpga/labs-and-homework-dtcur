@@ -125,3 +125,6 @@ quartus/HW-9/soc_system.sopcinfo
 quartus/soc_system.sopcinfo
 quartus/soc_system.sopcinfo
 quartus/soc_system.sopcinfo
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json

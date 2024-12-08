@@ -1,5 +1,8 @@
 #include "socfpga_cyclone5_de10nano.dtsi"
 
 /{
-
+        led_patterns: led_patterns@ff200000 {
+                compatible = "currie,led_patterns";
+                reg = <0xff200000 16>;
+        };
 };
